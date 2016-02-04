@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+{% endblock stylesheets%}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script>
+    var $collectionHolder;
+
+    // setup an "add a product" link
+    var $addProductLink = $('<a href="#" class="add_product_link">Add a product</a>');
+    var $newLinkLi = $('<li></li>').append($addProductLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.products');
+
+        // add the "add a product" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+    
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    
+        $addProductLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+    
+            // add a new product form (see next code block)
+            addProductForm($collectionHolder, $newLinkLi);
+        });
+    });
+</script>
+
+
+{% endblock javascripts %}
+
+
+{{ form_start(form) }}
+    {# render the task's only field: description #}
+    {{ form_row(form.description) }}
+
+    <h3>Tags</h3>
+    <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}">
+        {# iterate over each existing tag and render its only field: name #}
+        {% for tag in form.products %}
+            <li>{{ form_row(product.name) }}</li>
+        {% endfor %}
+    </ul>
+    
+{{ form_end(form) }}
+
