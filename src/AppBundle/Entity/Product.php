@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -28,7 +29,7 @@ class Product
     protected $price;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
     
@@ -41,7 +42,7 @@ class Product
     {
         $this->tasks = new ArrayCollection();
     }
-
+        
     /**
      * Get id
      *

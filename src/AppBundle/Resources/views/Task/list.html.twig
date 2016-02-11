@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Task list {% endblock %}
+
+{% block body %}
+
+<h2> Task list </h2>
+
+
+{% for task in tasks %}
+<ul>
+	<li><strong>{{ 'task.id' | trans }}</strong>: <a href="path('task_edit', { id:task.id }) ">{{ task.id }}</a></li>
+	<li>{{ 'task.name' | trans }}: {{ task.name }}</li>
+	<li>{{ 'task.description' | trans }}: {{ task.description }}</li>
+</ul>
+
+
+<table>
+	<thead>
+	<tr>
+		<th>{{ 'product.id' | trans }}</th>
+		<th>{{ 'product.name' | trans }}</th>		
+		<th>{{ 'product.description' | trans }}</th>
+		<th>{{ 'product.price' | trans }}</th>		
+	</tr>
+	</thead>
+	{% for product in products %}
+	<tbody>
+	<tr>
+		<td>{{ product.id }}</td>
+		<td>{{ product.name }}</td>
+		<td>{{ product.description }}</td>
+		<td>{{ product.price }}</td>		
+	</tr>
+	</tbody>
+	{% endfor %}
+</table>
+
+{% endfor %}
+
+<ul>
+	<li><a href="{{ app.request.headers.get('referer') }}">Atrás</a></li>	
+</ul>
+
+
+{% endblock %}

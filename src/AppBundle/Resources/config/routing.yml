@@ -1,3 +1,20 @@
+task_edit:
+  path: /task/edit/{id}
+  defaults: { _controller: AppBundle:Task:edit }
+
 task_new:
   path: /task/new
   defaults: { _controller: AppBundle:Task:new }
+
+task_list:
+  path: /task/list
+  defaults: { _controller: AppBundle:Task:list }
+
+
+product_list:
+  path: /product/list
+  defaults: { _controller: AppBundle:Product:list }
+
+product_new:
+  path: /product/new
+  defaults: { _controller: AppBundle:Product:new }

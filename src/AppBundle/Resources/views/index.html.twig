@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Task list {% endblock %}
+
+{% block body %}
+
+<header>
+<h1>Many to Many demo app</h1>
+<nav>
+  <ul>
+    <li>Task</li>
+    <ul>
+    	<li><a href="{{ path('task_list') }}">List</a></li>
+    	<li><a href="{{ path('task_new') }}">New</a></li>    
+    </ul>
+    <li>Product</li>
+    <ul>
+    	<li><a href="{{ path('product_list') }}">List</a></li>
+    	<li><a href="{{ path('product_new') }}">New</a></li>    
+    </ul>
+  </ul>
+</nav>  
+</header>
+
+
+{% endblock %}

@@ -3,7 +3,14 @@
 parameters:
 #    parameter_name: value
 
-services:
+
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+services:
+    appbundle.type.group_select:
+        class: AppBundle\Form\Type\ProductSelectType
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        tags:
+          - { name: form.type, alias: product_select }
