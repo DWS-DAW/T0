@@ -1,54 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
-{% endblock stylesheets%}
 
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+
 <script>
-    var $collectionHolder;
 
-    // setup an "add a product" link
-    var $addProductLink = $('<a href="#" class="add_product_link">Add a product</a>');
-    var $newLinkLi = $('<li></li>').append($addProductLink);
+var $collectionHolder;
+function add(){
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('table.products');
 
-    jQuery(document).ready(function() {
-        // Get the ul that holds the collection of tags
-        $collectionHolder = $('ul.products');
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find('tr').length);
+    var index = $collectionHolder.data('index');
 
-        // add the "add a product" anchor and li to the tags ul
-        $collectionHolder.append($newLinkLi);
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+
+
+    var index = $('table tbody tr').length;
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newRow = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+ 
+    $('table tbody').append(newRow);   
+}
+ 
+if ($('table tbody tr').length === 0) {
+    add();
+}
+ 
+jQuery(document.body).on('click', 'table tbody a',  function (event) {
+  event.preventDefault();
+    if ($(this).text() === "Add") {
+        add();
+    }
+ 
+    if ($(this).text() === "Remove") {
+        $(this).closest('tr').remove();
+    }
+ 
+    //If the user has just removed the last animal from the list add a new empty form in.
+    if ($('table tbody tr').length === 0) {
+        add();
+    }
+});
     
-        // count the current form inputs we have (e.g. 2), use that as the new
-        // index when inserting a new item (e.g. 2)
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
-    
-        $addProductLink.on('click', function(e) {
-            // prevent the link from creating a "#" on the URL
-            e.preventDefault();
-    
-            // add a new product form (see next code block)
-            addProductForm($collectionHolder, $newLinkLi);
-        });
-    });
+
 </script>
 
 
 {% endblock javascripts %}
 
 
+{% macro prototype(product) %}
+    <tr>
+        {# <td>{{form_widget(product.name)}}</td> #}
+        {# <td>{{form_widget(product.price)}} </td>  #}      
+        <td><ul><li><a href="#">Add</a></li><li><a href="#">Remove</a></li></ul></td>
+    </tr>
+{% endmacro %}
+
+{% block body %}
+
+
 {{ form_start(form) }}
     {# render the task's only field: description #}
-    {{ form_row(form.description) }}
+    {{ form_row(form.name) }}
 
-    <h3>Tags</h3>
-    <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}">
-        {# iterate over each existing tag and render its only field: name #}
-        {% for tag in form.products %}
-            <li>{{ form_row(product.name) }}</li>
-        {% endfor %}
-    </ul>
+    <h3>Products</h3>
     
-{{ form_end(form) }}
+
+    <table class="products" data-prototype="{{ _self.prototype(form.products.vars.prototype)|e }}">
+        {# iterate over each existing tag and render its prototype #}
+        <thead> 
+            <tr><th>Name</th><th>Price</th>
+        </thead>
+        <tbody>
+        {% for product in form.products %}
+            {# {{_self.prototype(product)}} #}
+            {{ form_row(product) }}
+        {% endfor %}
+        </tbody>
+    </table>  
+
+    {{ form_row(form.save) }}  
+
+    {{ form_widget(form._token) }}
+
+
+{% endblock body %}
 

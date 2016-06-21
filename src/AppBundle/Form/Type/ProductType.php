@@ -4,9 +4,10 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class ProductType extends AbstractType
 {
@@ -25,10 +26,11 @@ class ProductType extends AbstractType
                 ->add('description', TextType::class,[
                     'attr' => array('class' => 'form_input'),
                     'label' => 'Description',
-                    'label_attr' => array('class' => 'form_label')    
+                    'label_attr' => array('class' => 'form_label'),
+                    'required' => false    
                 ])
-                ->add('save', SubmitType)
-                ->add('saveAndAdd', SubmitType);
+                ->add('save', SubmitType::class)
+                ->add('saveAndAdd', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

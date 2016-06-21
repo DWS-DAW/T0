@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Task list {% endblock %}
+
+{% block body %}
+
+<h2>Product list</h2>
+
+<table>
+<thead>
+	<tr>
+		<th>{{ 'product.id' | trans }}</th>
+		<th>{{ 'product.name' | trans }}</th>
+		<th>{{ 'product.description' | trans }}</th>
+		<th>{{ 'product.price' | trans }}(€)</th>		
+	</tr>
+	</thead>
+	{% for product in products %}
+	<tbody>
+	<tr>
+		<td><a>{{ product.id }}</a></td>
+		<td>{{ product.name }}</td>
+		<td>{{ product.description }}</td>
+		<td>{{ product.price }}</td>		
+	</tr>
+	</tbody>
+	{% endfor %}
+</table>
+
+<ul>
+	<li><a href="{{ app.request.headers.get('referer') }}">Atrás</a></li>	
+</ul>
+
+
+{% endblock %}
